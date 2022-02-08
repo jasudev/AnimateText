@@ -28,7 +28,7 @@ https://user-images.githubusercontent.com/1617304/153016287-73f15db7-b642-4c4d-a
     /// Custom user info for the effect.
     @State var userInfo: Any? = nil
     
-    AnimateText<ATOpacityEffect>($text, type: type, userInfo: userInfo)
+    AnimateText<CustomEffect>($text, type: type, userInfo: userInfo)
     
     ```
 
