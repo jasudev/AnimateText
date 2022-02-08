@@ -1,5 +1,5 @@
 # **AnimateText**
-You can animate in individual views based on scroll position. Developed with SwiftUI. This library supports iOS/macOS.
+This library for animating text. Developed with SwiftUI. This library supports iOS/macOS.
 
 [![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20macOS-blue?style=flat-square)](https://developer.apple.com/macOS)
 [![iOS](https://img.shields.io/badge/iOS-14.0-blue.svg)](https://developer.apple.com/iOS)
@@ -9,7 +9,7 @@ You can animate in individual views based on scroll position. Developed with Swi
 [![MIT](https://img.shields.io/badge/licenses-MIT-red.svg)](https://opensource.org/licenses/MIT)  
 
 ## Screenshot
-
+https://user-images.githubusercontent.com/1617304/153016287-73f15db7-b642-4c4d-afc7-b3ecb2a17640.mp4
 
 ## Example
 [https://fabulaapp.page.link/224](https://fabulaapp.page.link/224)
