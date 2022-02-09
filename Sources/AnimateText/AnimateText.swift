@@ -46,6 +46,9 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
     /// Used to re-create the view.
     @State private var toggle: Bool = false
     
+    /// The first text is exposed as the default text.
+    @State private var isChanged: Bool = false
+    
     /// The size of the Text view.
     @State private var size: CGSize = .zero
     
@@ -63,13 +66,12 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
     }
     
     public var body: some View {
-        ZStack {
-            ZStack(alignment: .leading) {
-                if size.width == 0 {
-                    Text(text)
-                        .lineLimit(1)
-                        .takeSize($size)
-                }
+        ZStack(alignment: .leading) {
+            if !isChanged {
+                Text(text)
+                    .lineLimit(1)
+                    .takeSize($size)
+            }else {
                 HStack(spacing: 0) {
                     ForEach(Array(elements.enumerated()), id: \.offset) { index, element in
                         let data = ATElementData(element: element,
@@ -89,6 +91,7 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
             }
         }
         .onChange(of: text) { _ in
+            self.isChanged = true
             withAnimation {
                 value = 0
                 getText(text)
@@ -96,13 +99,6 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
             }
             DispatchQueue.main.async {
                 value = 1
-            }
-        }
-        .onAppear{
-            let text = self.text
-            self.text = ""
-            DispatchQueue.main.async {
-                self.text = text
             }
         }
     }
