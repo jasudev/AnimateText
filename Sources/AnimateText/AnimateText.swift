@@ -63,28 +63,30 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
     }
     
     public var body: some View {
-        ZStack(alignment: .leading) {
-            if size.width == 0 {
-                Text(text)
-                    .lineLimit(1)
-                    .takeSize($size)
-            }
-            HStack(spacing: 0) {
-                ForEach(Array(elements.enumerated()), id: \.offset) { index, element in
-                    let data = ATElementData(element: element,
-                                             type: self.type,
-                                             index: index,
-                                             count: elements.count,
-                                             value: value,
-                                             size: size)
-                    if toggle {
-                        Text(element).modifier(E(data, userInfo))
-                    }else {
-                        Text(element).modifier(E(data, userInfo))
+        ZStack {
+            ZStack(alignment: .leading) {
+                if size.width == 0 {
+                    Text(text)
+                        .lineLimit(1)
+                        .takeSize($size)
+                }
+                HStack(spacing: 0) {
+                    ForEach(Array(elements.enumerated()), id: \.offset) { index, element in
+                        let data = ATElementData(element: element,
+                                                 type: self.type,
+                                                 index: index,
+                                                 count: elements.count,
+                                                 value: value,
+                                                 size: size)
+                        if toggle {
+                            Text(element).modifier(E(data, userInfo))
+                        }else {
+                            Text(element).modifier(E(data, userInfo))
+                        }
                     }
                 }
+                .fixedSize(horizontal: true, vertical: false)
             }
-            .fixedSize(horizontal: true, vertical: false)
         }
         .onChange(of: text) { _ in
             withAnimation {
@@ -94,6 +96,13 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
             }
             DispatchQueue.main.async {
                 value = 1
+            }
+        }
+        .onAppear{
+            let text = self.text
+            self.text = ""
+            DispatchQueue.main.async {
+                self.text = text
             }
         }
     }
