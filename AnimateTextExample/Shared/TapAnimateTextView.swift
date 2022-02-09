@@ -36,13 +36,10 @@ struct TapAnimateTextView<E: ATTextAnimateEffect>: View {
                                 .opacity(0.3)
                                 .disabled(true)
                         }
-                        .transition(.opacity)
-                        .animation(.easeInOut(duration: 0.24), value: text)
                     }
                 }
                 .padding()
                 .padding(.bottom, 50)
-                .animation(.easeInOut, value: text)
                 Spacer()
             }
         }

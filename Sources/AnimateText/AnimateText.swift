@@ -91,12 +91,12 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
             }
         }
         .onChange(of: text) { _ in
-            self.isChanged = true
             withAnimation {
                 value = 0
                 getText(text)
                 toggle.toggle()
             }
+            self.isChanged = true
             DispatchQueue.main.async {
                 value = 1
             }
