@@ -68,6 +68,14 @@ https://user-images.githubusercontent.com/1617304/153016287-73f15db7-b642-4c4d-a
     }
     
     ```
+## Swift Package Manager
+The Swift Package Manager is a tool for automating the distribution of Swift code and is integrated into the swift compiler. Once you have your Swift package set up, adding AnimateText as a dependency is as easy as adding it to the dependencies value of your Package.swift.
+
+```swift
+dependencies: [
+    .package(url: "https://github.com/jasudev/AnimateText.git", .branch("main"))
+]
+```
 
 ## Contact
 instagram : [@dev.fabula](https://www.instagram.com/dev.fabula)  
