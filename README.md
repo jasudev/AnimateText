@@ -1,4 +1,4 @@
-# **AnimateText**
+# **AnimateText for SwiftUI**
 This library for animating text. Developed with SwiftUI. This library supports iOS/macOS.
 
 [![Platforms](https://img.shields.io/badge/Platforms-iOS%20%7C%20macOS-blue?style=flat-square)](https://developer.apple.com/macOS)
