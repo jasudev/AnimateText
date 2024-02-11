@@ -48,6 +48,7 @@ public struct ATAnimateTextPreview<E: ATTextAnimateEffect>: View {
                             .fill(Color.blue.opacity(0.1))
                     )
                     .padding(.leading)
+                    .padding(.trailing)
                 Divider().padding()
                 HStack {
                     Spacer()

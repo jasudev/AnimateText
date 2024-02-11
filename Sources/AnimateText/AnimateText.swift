@@ -37,6 +37,9 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
     /// Custom user info for the effect.
     var userInfo: Any? = nil
     
+    /// The height of the Text view.
+    @State private var height: CGFloat = 0
+    
     /// Split text into individual elements.
     @State private var elements: Array<String> = []
     
@@ -69,25 +72,43 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
         ZStack(alignment: .leading) {
             if !isChanged {
                 Text(text)
-                    .lineLimit(1)
                     .takeSize($size)
+            .multilineTextAlignment(.center)
             }else {
-                HStack(spacing: 0) {
-                    ForEach(Array(elements.enumerated()), id: \.offset) { index, element in
-                        let data = ATElementData(element: element,
-                                                 type: self.type,
-                                                 index: index,
-                                                 count: elements.count,
-                                                 value: value,
-                                                 size: size)
-                        if toggle {
-                            Text(element).modifier(E(data, userInfo))
-                        }else {
-                            Text(element).modifier(E(data, userInfo))
+                GeometryReader { geometry in
+                    VStack(alignment: .leading, spacing: 0) {
+                        ForEach(splitElements(containerWidth: geometry.size.width), id: \.self) { lineElements in
+                            HStack {
+                                Spacer()
+                                HStack(spacing: 0) {
+                                    ForEach(Array(lineElements.enumerated()), id: \.offset) { index, element in
+                                        let data = ATElementData(element: element,
+                                                                 type: self.type,
+                                                                 index: index,
+                                                                 count: elements.count,
+                                                                 value: value,
+                                                                 size: size)
+                                        if toggle {
+                                            Text(element).modifier(E(data, userInfo))
+                                        } else {
+                                            Text(element).modifier(E(data, userInfo))
+                                        }
+                                    }
+                                }
+                                .fixedSize(horizontal: true, vertical: false)
+                                Spacer()
+                            }
                         }
                     }
+                    .onAppear {
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 15
+                    }
+                    .onChange(of: geometry.size.width) { newValue in
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 15
+                    }
                 }
-                .fixedSize(horizontal: true, vertical: false)
+                .padding(.bottom, 40)
+                .frame(height: height)
             }
         }
         .onChange(of: text) { _ in
@@ -117,10 +138,68 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
             self.elements = elements
         }
     }
+    
+    func splitElements(containerWidth: CGFloat) -> [[String]] {
+        var lines: [[String]] = [[]]
+        var currentLineIndex = 0
+        var remainingWidth: CGFloat = containerWidth
+        var currentWord: String = ""
+        var words: [String] = []
+        
+        // build words
+        for (index, element) in elements.enumerated() {
+            if element == " " {
+                currentWord.append(element)
+                words.append(currentWord)
+                currentWord = ""
+            } else {
+                // Add the element to the current word
+                currentWord.append(element)
+                
+                // Check if this is the last element
+                if index == elements.count - 1 {
+                    words.append(currentWord)
+                }
+            }
+        }
+        
+        // build sentences, split words into elements
+        for (index, word) in words.enumerated() {
+            var letters: [String] = []
+            for char in word {
+                letters.append(String(char))
+            }
+            
+            let wordWidth = word.width(withConstrainedHeight: 1000, font: .systemFont(ofSize: 18)) // Assuming font size 18
+            
+            if index == 0 {
+                lines[currentLineIndex].append(contentsOf: letters)
+                remainingWidth -= wordWidth
+            } else {
+                if wordWidth > remainingWidth {
+                    currentLineIndex += 1
+                    lines.append(letters)
+                    remainingWidth = containerWidth - wordWidth
+                } else {
+                    lines[currentLineIndex].append(contentsOf: letters)
+                    remainingWidth -= wordWidth
+                }
+            }
+        }
+        return lines
+    }
 }
 
 struct AnimateText_Previews: PreviewProvider {
     static var previews: some View {
         ATAnimateTextPreview<ATRandomTypoEffect>()
+    }
+}
+
+extension String {
+    func width(withConstrainedHeight height: CGFloat, font: UIFont) -> CGFloat {
+        let constraintRect = CGSize(width: .greatestFiniteMagnitude, height: height)
+        let boundingBox = self.boundingRect(with: constraintRect, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil)
+        return ceil(boundingBox.width)
     }
 }
