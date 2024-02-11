@@ -101,13 +101,12 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
                         }
                     }
                     .onAppear {
-                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 15
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 20
                     }
                     .onChange(of: geometry.size.width) { newValue in
-                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 15
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 20
                     }
                 }
-                .padding(.bottom, 40)
                 .frame(height: height)
             }
         }
