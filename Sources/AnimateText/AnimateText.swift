@@ -101,10 +101,10 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
                         }
                     }
                     .onAppear {
-                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 20
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 40 // here you can customize the height to align a text
                     }
                     .onChange(of: geometry.size.width) { newValue in
-                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 20
+                        height = CGFloat(splitElements(containerWidth: geometry.size.width).count) * 40 // here you can customize the height to align a text
                     }
                 }
                 .frame(height: height)
@@ -169,7 +169,7 @@ public struct AnimateText<E: ATTextAnimateEffect>: View {
                 letters.append(String(char))
             }
             
-            let wordWidth = word.width(withConstrainedHeight: 1000, font: .systemFont(ofSize: 18)) // Assuming font size 18
+            let wordWidth = word.width(withConstrainedHeight: 1000, font: .systemFont(ofSize: 40)) // change the size if you change a font on your contentView
             
             if index == 0 {
                 lines[currentLineIndex].append(contentsOf: letters)
