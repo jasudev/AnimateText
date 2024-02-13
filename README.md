@@ -1,5 +1,4 @@
-This code is forked from @jasudev and it supports multiline texts. To customize the UI, simply go to AnimateText file and edit lines that are commented on.
-
+## This code is forked from @jasudev and it supports multiline texts. To customize the UI, simply go to AnimateText file and edit lines that are commented on.
 
 
 
