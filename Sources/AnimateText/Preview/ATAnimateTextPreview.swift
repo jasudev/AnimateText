@@ -41,13 +41,16 @@ public struct ATAnimateTextPreview<E: ATTextAnimateEffect>: View {
             VStack(alignment: .leading) {
                 Spacer()
                 AnimateText<E>($text, type: type)
-                    .font(.largeTitle)
+                    .font(.largeTitle) // remember that if you change the font, you should change the size of wordWidth in struct "AnimateText"
                     .padding()
                     .background(
                         RoundedRectangle(cornerRadius: 10)
                             .fill(Color.blue.opacity(0.1))
+                            .frame(height: 300) // modify this if you need
                     )
                     .padding(.leading)
+                    .padding(.trailing)
+                Spacer()
                 Divider().padding()
                 HStack {
                     Spacer()
